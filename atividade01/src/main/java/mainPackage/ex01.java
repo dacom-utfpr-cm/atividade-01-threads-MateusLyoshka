@@ -10,10 +10,10 @@ import java.util.Random;
  *
  * @author mateus-lyoshka
  */
-public class Main implements Runnable {
+public class ex01 implements Runnable {
     private int id;
     
-    public Main(int id){
+    public ex01(int id){
         this.id = id;
     }
     
@@ -26,20 +26,31 @@ public class Main implements Runnable {
            Thread.sleep(x*1000);
         }
         catch(InterruptedException ex){
-            System.out.println("Sleep da thread"+id+"interrompido");
+            System.out.println("Sleep da thread"+id+" interrompido!");
+            return;
         }
         System.out.println("Termino da thread:"+id);
     }
     
     public static void main(String[] args) {
-        Thread thread1 = new Thread(new Main(1));
-        Thread thread2 = new Thread(new Main(2));
-        Thread thread3 = new Thread(new Main(3));
+        Thread thread1 = new Thread(new ex01(1));
+        Thread thread2 = new Thread(new ex01(2));
+        Thread thread3 = new Thread(new ex01(3));
         
         thread1.start();
         thread2.start();
         thread3.start();
         
+        Thread Interrupção = new Thread(()->{
+            try{
+                Thread.sleep(1000);
+                thread1.interrupt();
+                System.out.println("Interrompendo thread1");
+            }catch(InterruptedException ex){
+                System.out.println("Thread de interrupção interrompida!" + ex.getMessage());
+            }
+        });
+        Interrupção.start();
         
     }
 }
